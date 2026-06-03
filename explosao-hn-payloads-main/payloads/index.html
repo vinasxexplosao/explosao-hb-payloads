@@ -1,71 +1,47 @@
-===== index.html =====
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homebrew Payloads</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Explosao do Game</title>
 </head>
-<body>
-    <header>
-        <h1>Homebrew Payloads</h1>
-    </header>
-    <nav class="tabs">
-        <button class="tab-btn active" onclick="showTab('ps4')">PS4</button>
-        <button class="tab-btn" onclick="showTab('ps5')">PS5</button>
-    </nav>
-    <main id="payload-container" class="content">
-        <!-- Conteúdo injetado pelo script.js -->
-    </main>
-    <script src="script.js"></script>
+<body style="background:#000;color:#fff;font-family:Arial;text-align:center;padding:20px">
+<h1 style="color:#ff6b00">Explosao do Game</h1>
+<p>IP: <input type="text" id="ip" value="192.168.1.50" size="15" style="background:#111;color:#fff;border:1px solid #ff6b00">
+Porta: <input type="text" id="port" value="9020" size="6" style="background:#111;color:#fff;border:1px solid #ff6b00"></p>
+<table align="center" style="color:#fff;border-collapse:collapse">
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>GoldHEN</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/goldhen.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>App Dumper</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-app-dumper.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>App2USB</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-app2usb.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Backup</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-backup.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Disable ASLR</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-disable-aslr.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Disable Updates</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-disable-updates.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Enable Browser</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-enable-browser.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Enable Updates</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-enable-updates.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Exit IDU</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-exit-idu.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Fan Threshold</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-fan-threshold.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>FTP</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-ftp.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>History Blocker</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-history-blocker.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Kernel Clock</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-kernel-clock.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Kernel Dumper</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/ps4-kernel-dumper.bin" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>SetVueUpdate</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/SetVueUpdate_Full_2.0.elf" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+<tr><td style="padding:10px;border-bottom:1px solid #333"><b>Fake Signin</b></td>
+<td style="padding:10px;border-bottom:1px solid #333"><a href="ps4/np-fake-signin-ps4.elf" style="color:#ff6b00">DOWNLOAD</a></td></tr>
+</table>
+<p style="color:#666;margin-top:20px">Explosao do Game - PS4 Payloads</p>
 </body>
 </html>
-
-===== style.css =====
-:root {
-    --bg: #0d0d0d;
-    --accent: #ff4500;
-    --text: #ffffff;
-    --card-bg: #1a1a1a;
-}
-body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-header { text-align: center; margin-bottom: 30px; }
-h1 { color: var(--accent); }
-.tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-.tab-btn { background: #333; color: white; border: none; padding: 10px 20px; cursor: pointer; transition: 0.3s; }
-.tab-btn.active { background: var(--accent); }
-.payload-card { background: var(--card-bg); padding: 15px; margin: 10px 0; border-left: 4px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-.download-btn { background: var(--accent); color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
-.fade-in { animation: fadeIn 0.5s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-===== script.js =====
-const payloads = {
-    ps4: [{ name: 'GoldHEN', desc: 'O melhor payload para PS4', file: 'goldhen.bin' }],
-    ps5: [{ name: 'PS5 Kernel Exploit', desc: 'Exploit para firmware compatível', file: 'ps5_exploit.bin' }]
-};
-function showTab(platform) {
-    const container = document.getElementById('payload-container');
-    container.innerHTML = '';
-    container.className = 'content fade-in';
-    payloads[platform].forEach(p => {
-        container.innerHTML += `<div class="payload-card"><div><h3>${p.name}</h3><p>${p.desc}</p></div><a href="payloads/${platform}/${p.file}" class="download-btn" download>Download</a></div>`;
-    });
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.toLowerCase() === platform));
-}
-showTab('ps4');
-
-===== README.md =====
-# Homebrew Payloads
-Repositório centralizado de payloads para PS4 e PS5.
-
-## Estrutura
-- `/payloads/ps4/`: Arquivos .bin para PS4
-- `/payloads/ps5/`: Arquivos .bin para PS5
-
-## Como contribuir
-Faça um fork, adicione seu arquivo na pasta correspondente e envie um Pull Request.
-
-## Segurança
-Use por sua conta e risco. Não nos responsabilizamos por danos ao console.
