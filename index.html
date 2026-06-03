@@ -4,68 +4,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homebrew Payloads</title>
+    <title>Homebrew Payloads Hub</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Homebrew Payloads</h1>
+        <h1>Homebrew Payloads Hub</h1>
+        <p>Repositório de payloads para PS4 e PS5</p>
     </header>
+
     <nav class="tabs">
         <button class="tab-btn active" onclick="showTab('ps4')">PS4</button>
         <button class="tab-btn" onclick="showTab('ps5')">PS5</button>
     </nav>
-    <main id="payload-container" class="content">
-        <!-- Conteúdo injetado pelo script.js -->
+
+    <main id="payload-grid" class="grid">
+        <!-- Cards injetados via JS -->
     </main>
+
+    <footer>
+        <p>&copy; 2023 Explosão HB Payloads - Desenvolvido para a comunidade</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
 
 ===== style.css =====
 :root {
-    --bg: #0d0d0d;
-    --accent: #ff4500;
+    --bg: #0a0a0a;
+    --accent: #ff6b00;
+    --danger: #ff0000;
     --text: #ffffff;
     --card-bg: #1a1a1a;
 }
-body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
 header { text-align: center; margin-bottom: 30px; }
-h1 { color: var(--accent); }
-.tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-.tab-btn { background: #333; color: white; border: none; padding: 10px 20px; cursor: pointer; transition: 0.3s; }
+
+.tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+
+.tab-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 10px 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
 .tab-btn.active { background: var(--accent); }
-.payload-card { background: var(--card-bg); padding: 15px; margin: 10px 0; border-left: 4px solid var(--accent); border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-.download-btn { background: var(--accent); color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
-.fade-in { animation: fadeIn 0.5s; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    transition: 0.3s;
+    animation: fadeIn 0.5s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    background: var(--danger);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.download-btn {
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 8px;
+    text-align: center;
+}
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+footer { text-align: center; margin-top: 50px; font-size: 0.8em; color: #666; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--accent); }
 
 ===== script.js =====
 const payloads = {
-    ps4: [{ name: 'GoldHEN', desc: 'O melhor payload para PS4', file: 'goldhen.bin' }],
-    ps5: [{ name: 'PS5 Kernel Exploit', desc: 'Exploit para firmware compatível', file: 'ps5_exploit.bin' }]
+    ps4: [
+        { name: "PS4 App Dumper", file: "ps4-app-dumper.bin", type: "bin" },
+        { name: "PS4 App2USB", file: "ps4-app2usb.bin", type: "bin" },
+        { name: "PS4 Backup", file: "ps4-backup.bin", type: "bin" },
+        { name: "PS4 Disable ASLR", file: "ps4-disable-aslr.bin", type: "bin" },
+        { name: "PS4 Disable Updates", file: "ps4-disable-updates.bin", type: "bin" },
+        { name: "PS4 Enable Browser", file: "ps4-enable-browser.bin", type: "bin" },
+        { name: "PS4 Enable Updates", file: "ps4-enable-updates.bin", type: "bin" },
+        { name: "PS4 Exit IDU", file: "ps4-exit-idu.bin", type: "bin" },
+        { name: "PS4 Fan Threshold", file: "ps4-fan-threshold.bin", type: "bin" },
+        { name: "PS4 FTP", file: "ps4-ftp.bin", type: "bin" },
+        { name: "PS4 History Blocker", file: "ps4-history-blocker.bin", type: "bin" },
+        { name: "PS4 Kernel Clock", file: "ps4-kernel-clock.bin", type: "bin" },
+        { name: "PS4 Kernel Dumper", file: "ps4-kernel-dumper.bin", type: "bin" },
+        { name: "SetVueUpdate Full", file: "SetVueUpdate_Full_2.0.elf", type: "elf" },
+        { name: "NP Fake Signin", file: "np-fake-signin-ps4.elf", type: "elf" }
+    ],
+    ps5: []
 };
+
 function showTab(platform) {
-    const container = document.getElementById('payload-container');
-    container.innerHTML = '';
-    container.className = 'content fade-in';
+    const grid = document.getElementById('payload-grid');
+    const btns = document.querySelectorAll('.tab-btn');
+    
+    btns.forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === platform));
+    grid.innerHTML = '';
+
+    if (payloads[platform].length === 0) {
+        grid.innerHTML = '<p>Em breve...</p>';
+        return;
+    }
+
     payloads[platform].forEach(p => {
-        container.innerHTML += `<div class="payload-card"><div><h3>${p.name}</h3><p>${p.desc}</p></div><a href="payloads/${platform}/${p.file}" class="download-btn" download>Download</a></div>`;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="badge">${p.type.toUpperCase()}</span>
+            <h3>${p.name}</h3>
+            <a href="explosao-hn-payloads-main/payloads/ps4/${p.file}" class="download-btn" download>Download</a>
+        `;
+        grid.appendChild(card);
     });
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.toLowerCase() === platform));
 }
+
+// Inicializa na aba PS4
 showTab('ps4');
-
-===== README.md =====
-# Homebrew Payloads
-Repositório centralizado de payloads para PS4 e PS5.
-
-## Estrutura
-- `/payloads/ps4/`: Arquivos .bin para PS4
-- `/payloads/ps5/`: Arquivos .bin para PS5
-
-## Como contribuir
-Faça um fork, adicione seu arquivo na pasta correspondente e envie um Pull Request.
-
-## Segurança
-Use por sua conta e risco. Não nos responsabilizamos por danos ao console.
