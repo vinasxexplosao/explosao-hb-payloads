@@ -1,90 +1,142 @@
-import os
-import socket
-from flask import Flask, request, jsonify, render_template_string
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
-
-HTML_TEMPLATE = """
 <!DOCTYPE html>
-<html lang='pt-br'>
+<html lang="pt-br">
 <head>
-    <meta charset='UTF-8'>
-    <title>PS Payload Injector</title>
-    <style>
-        body { background: #121212; color: #e0e0e0; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .container { background: #1e1e1e; padding: 20px; border-radius: 8px; width: 100%; max-width: 500px; }
-        input, select, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: none; }
-        button { background: #007bff; color: white; cursor: pointer; font-weight: bold; }
-        button:hover { background: #0056b3; }
-        #status { margin-top: 10px; padding: 10px; border-radius: 4px; display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explosão do Game | Payloads</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--accent:#ff6600;--text:#e0e0e0;--card:#161616}
+body{background:radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);color:var(--text);font-family:'Rajdhani',sans-serif;margin:0;padding:0;display:flex;flex-direction:column;align-items:center;min-height:100vh}
+header{text-align:center;padding:40px 20px}
+h1{font-family:'Orbitron',sans-serif;color:var(--accent);margin:0;font-size:2.5rem}
+p{margin:5px 0;letter-spacing:2px}
+.tabs{display:flex;gap:20px;margin:30px 0}
+.tab{padding:10px 30px;cursor:pointer;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:'Orbitron',sans-serif;transition:0.3s}
+.tab.active{background:var(--accent);color:white}
+.container{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;width:90%;max-width:1000px;padding-bottom:50px}
+.card{background:var(--card);border-left:4px solid var(--accent);padding:20px;display:flex;justify-content:space-between;align-items:center;transition:0.3s}
+.card:hover{transform:translateX(10px);background:#1f1f1f}
+.card-info h3{margin:0;font-family:'Orbitron',sans-serif;font-size:1.1rem}
+.badge{font-size:0.7rem;background:#333;padding:2px 6px;border-radius:4px;margin-left:10px}
+.btn-dl{background:var(--accent);color:white;text-decoration:none;padding:8px 15px;font-weight:bold;border-radius:4px;font-size:0.9rem}
+.ip-box{display:flex;gap:10px;margin-bottom:30px;width:90%;max-width:600px}
+.ip-box input{flex:1;padding:10px;background:#1a1a1a;border:1px solid var(--accent);color:white;font-family:'Rajdhani'}
+.ip-box select{padding:10px;background:#1a1a1a;border:1px solid var(--accent);color:white}
+.ip-box button{padding:10px 20px;background:var(--accent);color:white;border:none;cursor:pointer;font-family:'Orbitron'}
+.soon{text-align:center;padding:50px;font-size:2rem;font-family:'Orbitron',sans-serif;color:#555}
+footer{margin-top:auto;padding:20px;color:#666}
+a{color:var(--accent);text-decoration:none}
+</style>
 </head>
 <body>
-    <div class='container'>
-        <h2>Injetor de Payloads</h2>
-        <input type='text' id='ip' placeholder='IP do Console (ex: 192.168.1.50)'>
-        <select id='port'>
-            <option value='9020'>9020</option>
-            <option value='9021'>9021</option>
-            <option value='9090'>9090</option>
-        </select>
-        <select id='payload'>
-            {% for p in payloads %}<option value='{{ p.path }}'>{{ p.type }} - {{ p.name }}</option>{% endfor %}
-        </select>
-        <button onclick='inject()'>Injetar</button>
-        <div id='status'></div>
-    </div>
-    <script>
-        async function inject() {
-            const data = { ip: document.getElementById('ip').value, port: document.getElementById('port').value, filepath: document.getElementById('payload').value };
-            const status = document.getElementById('status');
-            try {
-                const res = await fetch('/inject', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
-                const result = await res.json();
-                status.style.display = 'block';
-                status.style.background = result.success ? '#28a745' : '#dc3545';
-                status.innerText = result.message;
-            } catch (e) { status.innerText = 'Erro de conexão'; }
-        }
-    </script>
+<header>
+  <h1>💥 Explosão do Game</h1>
+  <p>Repositório de Payloads PS4 & PS5</p>
+</header>
+
+<div class="ip-box">
+  <input type="text" id="console-ip" placeholder="IP do Console (ex: 192.168.1.50)">
+  <select id="console-port">
+    <option value="9020">9020</option>
+    <option value="9021">9021</option>
+    <option value="9090">9090</option>
+  </select>
+  <button onclick="testConnection()">Testar</button>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab(0)">PS4</div>
+  <div class="tab" onclick="switchTab(1)">PS5</div>
+</div>
+
+<div class="container" id="ps4-list">
+  <div class="card">
+    <div class="card-info"><h3>GoldHEN<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/goldhen.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>App Dumper<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-app-dumper.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>App2USB<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-app2usb.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Backup<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-backup.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Disable ASLR<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-disable-aslr.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Disable Updates<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-disable-updates.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Enable Browser<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-enable-browser.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Enable Updates<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-enable-updates.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Exit IDU<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-exit-idu.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Fan Threshold<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-fan-threshold.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>FTP<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-ftp.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>History Blocker<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-history-blocker.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Kernel Clock<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-kernel-clock.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Kernel Dumper<span class="badge">BIN</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/ps4-kernel-dumper.bin" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>SetVueUpdate<span class="badge">ELF</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/SetVueUpdate_Full_2.0.elf" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+  <div class="card">
+    <div class="card-info"><h3>Fake Signin<span class="badge">ELF</span></h3></div>
+    <a href="explosao-hn-payloads-main/payloads/ps4/np-fake-signin-ps4.elf" class="btn-dl" download>DOWNLOAD</a>
+  </div>
+</div>
+
+<div id="ps5-list" style="display:none">
+  <div class="soon">EM BREVE</div>
+</div>
+
+<footer>
+  <a href="https://youtube.com/@ExplosaodoGame" target="_blank">YouTube: Explosão do Game</a>
+</footer>
+
+<script>
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', i===j));
+  document.getElementById('ps4-list').style.display = i===0 ? 'grid' : 'none';
+  document.getElementById('ps5-list').style.display = i===1 ? 'block' : 'none';
+}
+function testConnection() {
+  const ip = document.getElementById('console-ip').value;
+  const port = document.getElementById('console-port').value;
+  if(!ip){alert('Digite o IP do console!');return;}
+  alert('Testando conexão com ' + ip + ':' + port + '...\n\nNota: A injeção direta pelo navegador requer um servidor local rodando no seu PC (app.py). O site no GitHub só faz download dos arquivos .bin.');
+}
+</script>
 </body>
 </html>
-"""
-
-def get_payloads():
-    payloads = []
-    for console in ['ps4', 'ps5']:
-        path = os.path.join('payloads', console)
-        if os.path.exists(path):
-            for f in os.listdir(path):
-                if f.endswith('.bin'):
-                    payloads.append({'name': f, 'path': os.path.join(path, f), 'type': console.upper()})
-    return payloads
-
-@app.route('/')
-def index():
-    return render_template_string(HTML_TEMPLATE, payloads=get_payloads())
-
-@app.route('/inject', methods=['POST'])
-def inject():
-    data = request.json
-    ip, port, filepath = data.get('ip'), int(data.get('port')), data.get('filepath')
-    try:
-        with open(filepath, 'rb') as f:
-            payload = f.read()
-        print(f"Enviando {filepath} para {ip}:{port}...")
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.settimeout(5)
-            s.connect((ip, port))
-            s.sendall(payload)
-        return jsonify({'success': True, 'message': 'Payload enviado com sucesso!'})
-    except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({'success': False, 'message': str(e)})
-
-if __name__ == '__main__':
-    os.makedirs('payloads/ps4', exist_ok=True)
-    os.makedirs('payloads/ps5', exist_ok=True)
-    app.run(host='0.0.0.0', port=5000)
