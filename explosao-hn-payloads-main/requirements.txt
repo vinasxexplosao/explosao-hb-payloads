@@ -1,0 +1,2 @@
+# Dependências Python
+# Nenhuma dependência externa necessária para os scripts base
